@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy 7 Years! ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .container {
+      background: rgba(255,255,255,0.95);
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      font-size: 2.3rem;
+      color: #ff4d6d;
+    }
+
+    #typewriter {
+      font-size: 1.1rem;
+      margin-top: 20px;
+      min-height: 80px;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 30px;
+      background: #ff4d6d;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    button:hover {
+      background: #e63956;
+      transform: scale(1.05);
+    }
+
+    .memories {
+      display: none;
+      margin-top: 25px;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .ending {
+      display: none;
+      margin-top: 30px;
+      font-size: 1.3rem;
+      color: #ff4d6d;
+      font-weight: bold;
+    }
+
+    /* Hearts */
+    .heart {
+      position: fixed;
+      width: 15px;
+      height: 15px;
+      background: red;
+      transform: rotate(45deg);
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -8px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -8px;
+      top: 0;
+    }
+
+    /* Lock screen */
+    #lockScreen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    #lockBox {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 320px;
+      width: 90%;
+    }
+
+    input {
+      padding: 10px;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+        text-align: center;
+
+    }
+
+    .confetti {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  top: -10px;
+  animation: fall 3s linear forwards;
+  z-index: 9999;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+  /* ------------------- CROSSWORD ------------------- */
+    #crosswordWrapper {
+      display: none;
+      margin-top: 40px;
+    }
+
+
+    #cwError { color:red; display:none; margin-top:10px; }
+
+
+
+    /* ------------------- LETTER ------------------- */
+    #letterOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+    }
+
+    #letter {
+      background: #fffaf3;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 90%;
+        max-height: 80vh;       /* <-- limit height to viewport */
+  overflow-y: auto;       /* <-- enable vertical scrolling */
+      font-family: 'Comic Sans MS', 'Segoe Script', cursive;
+      color: #5a2a27;
+      line-height: 1.6;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    #letter span.close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+#countdownBox {
+  margin-top: 25px;
+  padding: 20px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #ff4d6d, #ff9a9e);
+  color: white;
+  box-shadow: 0 0 20px rgba(255,77,109,0.6);
+  animation: pulse 2s infinite;
+}
+
+.countdownTitle {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+#countdownTime {
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+ video {
+      width: 100%;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- 🔒 PASSWORD SCREEN -->
+<div id="lockScreen">
+  <div id="lockBox">
+    <h2 style="color:#ff4d6d;">🔒 Enter the password</h2>
+    <p style="font-size:0.9rem;">Hint: our anniversary date ❤️</p>
+    <input id="passwordInput" type="password" placeholder="Enter password">
+    <button onclick="checkPassword()">Unlock 💖</button>
+    <p id="error" style="color:red;display:none;">Wrong password 😢</p>
+  </div>
+</div>
+
+<!-- 💌 MAIN CONTENT -->
+<div class="container">
+  <h1>Happy 7 Years Shawty!!! ❤️</h1>
+  <div id="typewriter"></div>
+
+  <button onclick="revealMemories()">Click for our memories 💌</button>
+
+  <div class="memories" id="memories">
+    <p>✨ Some of my favorite memories with you</p>
+    <img id="slideshow" src="photo1.jpg"
+         style="width:100%;border-radius:15px;margin-top:15px;">
+    <p>💖 Eres lo mejor que me ha pasado</p>
+  </div>
+
+  <div class="ending" id="ending">
+    I’d choose you every lifetime ♾️❤️
+  </div>
+ <button id="openLetterBtn"
+        style="display:none; margin-top:20px;"
+        onclick="openLetter()">
+  Read my letter again 💌
+</button>
+
+<!-- Mini Crossword Grid -->
+  <div id="crosswordWrapper">
+    <p>Solve this tiny puzzle to unlock my love letter 💌</p>
+    <div>
+      <div style="margin-bottom:10px;">
+    <label>1. Our all-time favorite trip together? (6 letters)</label><br>
+    <input id="answer1" maxlength="20" style="width:100%; font-size:1.5rem; padding:8px;">
+  </div>
+
+  <div style="margin-bottom:10px;">
+    <label>2. How many months have we been together? (2 digits)</label><br>
+    <input id="answer2" maxlength="5" style="width:100%; font-size:1.5rem; padding:8px;">
+  </div>
+
+  <div style="margin-bottom:10px;">
+    <label>3. My favorite song from Bad Bunny DTMF album? (5 letters)</label><br>
+    <input id="answer3" maxlength="20" style="width:100%; font-size:1.5rem; padding:8px;">
+  </div>
+
+    <button id="checkBtn"onclick="checkAnswers()">Check Answers 💖</button>
+    <p id="cwError">Some answers are wrong 😢</p>
+  </div>
+</div>
+
+
+
+<!-- 🎵 MUSIC -->
+<audio id="music" loop>
+  <source src="oursong.mp3" type="audio/mpeg">
+</audio>
+
+<!-- LETTER OVERLAY -->
+<div id="letterOverlay">
+  <div id="letter">
+    <span class="close" onclick="closeLetter()">❌</span>
+    <h2 style="text-align:center;">My Amor ❤️</h2>
+     <p>
+      Seven years ago, I had no idea how much my life was about to change.
+      You became my safe place, my best friend, my home.
+    </p>
+
+    <p>
+      Thank you for growing with me, loving me, and choosing me,
+      even on the hard days. I am the luckiest to have you as my fiancé.
+      You are the best thing that has ever happened to me! There are not 
+      enough words to express how much I love you and how thankful I am
+      to have you in my life. Gracias por ser tú, por tu amor incondicional,
+      y por hacerme tan feliz cada día. Te amo con todo mi corazón. 
+      I can’t wait to see you later and celebrate us! Wooooo 🎉❤️
+    </p>
+
+    <p>
+      I’ll keep choosing you. In every lifetime.
+
+      </p>
+      P.S. This is your sight and hear gift! Smell, taste, and touch are coming later lol 😉
+    </p>
+
+    <p style="text-align:right;margin-top:20px;">
+      Forever yours,<br>
+      <strong>— Ana 💖</strong>
+    </p>
+    <div id="countdownBox">
+  <p class="countdownTitle">⏳ Counting down until we see each other</p>
+  <div id="countdownTime">Loading...</div>
+</div>
+
+    <!-- Countdown Timer -->
+    <div id="countdown" style="font-size:1.3rem; margin-top:25px; color:#ff4d6d;"></div>
+
+    <!-- Favorite Video -->
+    <div style="margin-top:20px;">
+      <p>🎬 One of my favorite videos together just a small snippet (click to play)</p>
+     <video id="loveVideo" width="100%" controls playsinline>
+  <source src="https://drive.google.com/uc?export=download&id=1jNMJZFGHopUHoYQYXjCmNn8hkCWEtzX8
+" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+
+
+
+function launchConfetti() {
+  const colors = ["#ff4d6d", "#ffd166", "#06d6a0", "#4d96ff", "#ff9a9e"];
+
+  for (let i = 0; i < 120; i++) {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    confetti.style.left = Math.random() * window.innerWidth + "px";
+    confetti.style.backgroundColor =
+      colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+    confetti.style.opacity = Math.random();
+    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+    document.body.appendChild(confetti);
+
+    setTimeout(() => confetti.remove(), 3000);
+  }
+}
+
+function startMusic() {
+  const music = document.getElementById("music");
+  music.volume = 0.7; // soft romantic volume
+  music.play();
+}
+
+
+  /* 🔑 PASSWORD */
+  const PASSWORD = "012819"; 
+
+  function checkPassword() {
+  const input = document.getElementById("passwordInput").value;
+
+  if (input === PASSWORD) {
+    launchConfetti();
+    setTimeout(() => {
+      document.getElementById("lockScreen").style.display = "none";
+       startMusic();       // 🎵 START SONG
+      startTypewriter();  // ✍️ START TEXT
+    }, 900);
+  } else {
+    document.getElementById("error").style.display = "block";
+  }
+}
+
+
+  /* ✍️ TYPEWRITER */
+  const text = "Seven years ago, I found my favorite person. Every laugh, every challenge, every moment has been better because it was with you.";
+  let index = 0;
+
+  function startTypewriter() {
+    function typeWriter() {
+    if (index < text.length) {
+      document.getElementById("typewriter").innerHTML += text.charAt(index);
+      index++;
+      setTimeout(typeWriter, 45);
+    }
+  }
+  typeWriter();
+}
+
+  /* 💌 REVEAL */
+  function revealMemories() {
+    document.getElementById("memories").style.display = "block";
+    document.getElementById("ending").style.display = "block";
+    document.getElementById("crosswordWrapper").style.display = "block";
+  // Hide the memories button after clicking
+  document.querySelector('.container > button').style.display = 'none';
+  }
+
+
+
+  /* 💖 HEARTS (DESKTOP + MOBILE) */
+  function createHeart(x, y) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = x + "px";
+    heart.style.top = y + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 500);
+  }
+
+  document.addEventListener("mousemove", e => {
+    createHeart(e.pageX, e.pageY);
+  });
+
+  document.addEventListener("touchstart", e => {
+    const touch = e.touches[0];
+    createHeart(touch.pageX, touch.pageY);
+  });
+
+  /* 📸 SLIDESHOW */
+  const photos = [
+    "photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg",
+    "photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.jpg",
+    "photo11.jpg","photo12.jpg","photo13.jpg","photo14.jpg","photo15.jpg",
+    "photo16.jpg","photo17.jpg","photo18.jpg","photo19.jpg","photo20.jpg","photo21.jpg"
+  ];
+
+  let currentPhoto = 0;
+  setInterval(() => {
+    currentPhoto = (currentPhoto + 1) % photos.length;
+    document.getElementById("slideshow").src = photos[currentPhoto];
+  }, 2000);
+
+const CORRECT_ANSWERS = {
+  answer1: "MEXICO",
+  answer2: "84",
+  answer3: "VELDA"
+};
+
+function checkAnswers() {
+  let correct = true;
+
+  for (let key in CORRECT_ANSWERS) {
+    const val = document.getElementById(key).value.trim().toUpperCase();
+    if (val !== CORRECT_ANSWERS[key]) {
+      correct = false;
+      break;
+    }
+  }
+
+  if (correct) {
+    openLetter();
+    document.getElementById("openLetterBtn").style.display = "inline-block";
+    document.getElementById("crosswordWrapper").style.display = "none";
+    document.getElementById("cwError").style.display = "none";
+  } else {
+    document.getElementById("cwError").style.display = "block";
+  }
+}
+
+function startCountdown() {
+  const el = document.getElementById("countdownTime");
+
+  function update() {
+    const now = new Date();
+    const target = new Date();
+    target.setHours(18, 0, 0, 0); // 6:00 PM
+
+    if (now > target) target.setDate(target.getDate() + 1);
+
+    const diff = target - now;
+
+    const h = Math.floor(diff / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+    el.textContent = `${h}h ${m}m ${s}s 💕`;
+  }
+
+  update();
+  setInterval(update, 1000);
+}
+
+
+function openLetter(){
+  document.getElementById("letterOverlay").style.display="flex";
+  startCountdown();
+  const video=document.getElementById("loveVideo");
+  const music=document.getElementById("music");
+  video.onplay = () => music.pause();
+video.onpause = () => music.play();
+video.onended = () => music.play();
+
+}
+
+function closeLetter(){
+  document.getElementById("letterOverlay").style.display="none";
+  const video=document.getElementById("loveVideo");
+  video.pause();
+  document.getElementById("music").play();
+}
+</script>
+
+</body>
+</html>
