@@ -332,18 +332,32 @@
     <div id="countdown" style="font-size:1.3rem; margin-top:25px; color:#ff4d6d;"></div>
 
     <!-- Favorite Video -->
-    <div style="margin-top:20px;">
-      <p>🎬 One of my favorite videos together just a small snippet (click to play)</p>
-     <video id="loveVideo" width="100%" controls playsinline>
-  <source src="https://drive.google.com/uc?export=download&id=1jNMJZFGHopUHoYQYXjCmNn8hkCWEtzX8
-" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+<div style="margin-top:25px;">
+  <p style="font-weight:bold;">One of my favorite videos together just a small snippet (click to play)</p>
 
-    </div>
+  <div style="
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  ">
+    <iframe
+      src="https://drive.google.com/file/d/1jNMJZFGHopUHoYQYXjCmNn8hkCWEtzX8/preview"
+      style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      "
+      allow="autoplay"
+      allowfullscreen
+    ></iframe>
   </div>
 </div>
-
 
 <script>
 
