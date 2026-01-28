@@ -333,7 +333,7 @@
 
     <!-- Favorite Video -->
 <div style="margin-top:25px;">
-  <p style="font-weight:bold;">One of my favorite videos together just a small snippet (click to play)</p>
+  <p style="font-weight:bold;">🎬One of my favorite videos together just a small snippet (click to play)</p>
 
   <div style="
     position: relative;
@@ -519,23 +519,26 @@ function startCountdown() {
 }
 
 
-function openLetter(){
-  document.getElementById("letterOverlay").style.display="flex";
+function openLetter() {
+  document.getElementById("letterOverlay").style.display = "flex";
   startCountdown();
-  const video=document.getElementById("loveVideo");
-  const music=document.getElementById("music");
-  video.onplay = () => music.pause();
-video.onpause = () => music.play();
-video.onended = () => music.play();
 
+  // Pause background music while video plays
+  const music = document.getElementById("music");
+  if (!music.paused) {
+    music.pause();
+  }
 }
 
-function closeLetter(){
-  document.getElementById("letterOverlay").style.display="none";
-  const video=document.getElementById("loveVideo");
-  video.pause();
-  document.getElementById("music").play();
+
+function closeLetter() {
+  document.getElementById("letterOverlay").style.display = "none";
+
+  // Resume background music after closing letter
+  const music = document.getElementById("music");
+  music.play();
 }
+
 </script>
 
 </body>
